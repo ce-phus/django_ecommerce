@@ -43,6 +43,10 @@ INSTALLED_APPS = [
     'products',
     'payments',
     'phonenumber_field',
+    'crispy_forms',
+    'crispy_tailwind',
+    'crispy_bootstrap4',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -138,7 +142,13 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # Add your additional static file directories here if needed
 ]
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 MEDIA_ROOT = 'static/images'
+
+LOGIN_REDIRECT_URL = 'index'
+LOGIN_URL = 'login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

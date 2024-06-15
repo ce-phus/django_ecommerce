@@ -29,7 +29,8 @@ class TransactionModel(models.Model):
 
 
 class BillingAddress(models.Model):
-    name = models.CharField(max_length=200, null=False, blank=False)
+    username = models.CharField(max_length=200, null=False, blank=False)
+    email = models.EmailField(null = False, blank=False)
     user =  models.ForeignKey(User, related_name="billingmodel", on_delete=models.CASCADE, null=True, blank=True)
     phone_number= PhoneNumberField(null=False, blank=False)
     pin_code = models.CharField(max_length=6, validators=[RegexValidator(r'^\d{0,9}$')], null=False, blank=False)
@@ -45,7 +46,8 @@ class BillingAddress(models.Model):
 
 
 class OrderModel(models.Model):
-    name = models.CharField(max_length=120)
+    username = models.CharField(max_length=120)
+    email = models.EmailField(null = False, blank=False)
     ordered_item = models.CharField(max_length=200, null=True, blank=True, default="Not Set")
     phone_number= PhoneNumberField(null=False, blank=False)
     address = models.CharField(max_length=300, null=True, blank=True)
