@@ -1,0 +1,22 @@
+{% extends 'account/_base.html' %}
+{% block content %}
+
+<div class="pt-20 mt-20">
+    <div class="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
+        <h2 class="text-2xl flex items-center justify-center font-bold mb-5">Account Details</h2>
+        <p class="font-semibold mr-4 mb-5">Username: <span class="text-secondary">{{ user.username }}</span></p>
+        <p class="font-semibold mr-4 mb-5">Email: <span class="text-secondary">{{ user.email }}</span></p>
+        <p class="font-semibold mr-4 mb-5">Last login: <span class="text-secondary">{{ user.last_login }}</span></p>
+        <p class="font-semibold mr-4 mb-5">Is staff: <span class="text-secondary">{{ user.is_staff }}</span></p>
+        <div class="flex items-center justify-center">
+            <a href="{% url 'update_account' %}" class="mr-4">
+                <button class="w-full  bg-blue-500 text-white p-2 rounded-lg">Update</button>
+            </a>
+            <a href="{% url 'delete_account' %}">
+                <button class="w-full  bg-red-500 text-white p-2 rounded-lg">Delete</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

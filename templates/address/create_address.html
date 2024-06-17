@@ -1,0 +1,14 @@
+{% extends 'account/_base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="pt-20 max-w-lg mx-auto">
+    <h1 class="text-3xl font-bold mb-5">Create Address</h1>
+    <div class="bg-white p-5 rounded shadow">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Save Address</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

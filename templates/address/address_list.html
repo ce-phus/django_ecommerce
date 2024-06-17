@@ -1,0 +1,37 @@
+{% extends 'account/_base.html' %}
+{% block content %}
+<div class="max-w-lg mx-auto pt-20">
+    <h1 class="text-2xl font-bold mb-4">Your Address</h1>
+
+    {% if addresses %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for address in addresses %}
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h2 class="text-xl font-semibold">{{ address.username }}</h2>
+                <p>{{ address.phone_number }}</p>
+                <p>{{ address.house_no }}, {{ address.landmark }}</p>
+                <p>{{ address.city }}, {{ address.state }} - {{ address.pin_code }}</p>
+                <div class="flex">
+                    <a class="bg-blue-500 hover:bg-blue-700 px-4 py-2 text-white mr-4" href="{% url 'update_address' %}">
+                        Update
+                    </a>
+                    <a class="bg-red-500 hover:bg-red-700 px-4 py-2 text-white" href="{% url 'delete_address' %}">
+                        Delete
+                    </a>
+                </div>
+                
+            </div>
+        {% endfor %}
+        {% else %}
+            <div class="bg-white p-4 rounded-lg shadow">
+                <p class="text-center text-gray-700">No addresses found.</p>
+                <div class="text-center mt-4">
+                    <a href="{% url 'create_address' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Add New Address
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
