@@ -4,18 +4,18 @@
     <h1 class="text-2xl font-bold mb-4">Your Address</h1>
 
     {% if addresses %}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="">
         {% for address in addresses %}
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h2 class="text-xl font-semibold">{{ address.username }}</h2>
-                <p>{{ address.phone_number }}</p>
-                <p>{{ address.house_no }}, {{ address.landmark }}</p>
-                <p>{{ address.city }}, {{ address.state }} - {{ address.pin_code }}</p>
+            <div class="bg-white rounded-lg shadow flex flex-col p-20 items-center justify-center">
+                <h2 class="text-xl font-semibold mb-4">Username: {{ address.username }}</h2>
+                <p class="text-secondary mb-3">Phone Number: {{ address.phone_number }}</p>
+                <p class="text-secondary mb-3"> House No/Landmark: {{ address.house_no }}, {{ address.landmark }}</p>
+                <p class="text-secondary mb-3"> City: {{ address.city }}, {{ address.state }} - {{ address.pin_code }}</p>
                 <div class="flex">
-                    <a class="bg-blue-500 hover:bg-blue-700 px-4 py-2 text-white mr-4" href="{% url 'update_address' %}">
+                    <a class="bg-blue-500 hover:bg-blue-700 px-4 py-2 text-white mr-4 rounded-lg" href="{% url 'update_address' %}">
                         Update
                     </a>
-                    <a class="bg-red-500 hover:bg-red-700 px-4 py-2 text-white" href="{% url 'delete_address' %}">
+                    <a class="bg-red-500 hover:bg-red-700 px-4 py-2 text-white rounded-lg" href="{% url 'delete_address' %}">
                         Delete
                     </a>
                 </div>
