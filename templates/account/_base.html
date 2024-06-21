@@ -39,8 +39,25 @@
                 </a>
             </div>
             <div class="flex items-center">
-                <div class="relative ms-3">
+                <div class="relative ms-3 flex">
+                    <!-- Cart Svg -->
                     <div>
+                        <a href="{% url 'cart_detail' %}" class="inline-block text-sm  leading-none border rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-white ">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 256 256" xml:space="preserve">
+                                <g transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                                    <path d="M24.158 57.596h54.898c2.293 0 4.313-1.509 4.964-3.709l5.841-19.759c0.633-2.141-0.972-4.289-3.204-4.289H16.95L24.158 57.596z" style="fill: rgb(64,89,107);"/>
+                                    <path d="M79.585 70.399H27.091c-0.687 0-1.287-0.464-1.46-1.129L14.404 26.034c-0.421-1.62-1.883-2.751-3.557-2.751H1.508C0.675 23.283 0 22.608 0 21.775s0.675-1.508 1.508-1.508h9.339c3.048 0 5.711 2.06 6.476 5.01l10.935 42.106h51.327c0.833 0 1.508 0.676 1.508 1.508C81.093 69.724 80.417 70.399 79.585 70.399z" style="fill: rgb(64,89,107);"/>
+                                    <circle cx="36.176" cy="80.946" r="6.536" style="fill: rgb(64,89,107);"/>
+                                    <circle cx="69.156" cy="80.946" r="6.536" style="fill: rgb(64,89,107);"/>
+                                </g>
+                            </svg>
+                            Cart
+                            {% if cart_item_count %}
+                            <span id="cart-icon" class="ml-1 text-sm bg-blue-700 text-white rounded-full px-2 py-1">{{ cart_item_count }}</span>
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="ml-4">
                         <button id="dropdown-user-button" type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300" aria-expanded="false">
                             <span class="sr-only">Open User Menu</span>
                             <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
@@ -206,6 +223,74 @@
             dropdown.classList.toggle('hidden');
         });
 
+                // Function to update cart icon and quantity in navbar using AJAX
+        function updateCartIcon() {
+            fetch('api/cart-summary/')
+                .then(response => response.json())
+                .then(data => {
+                    const cartItemCount = data.cart_items_count;
+                    document.getElementById('cart-item-count').textContent = cartItemCount;
+                })
+                .catch(error => console.error('Error updating cart icon:', error));
+        }
+
+        // Call updateCartIcon initially to update the cart count on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartIcon();
+        });
+
+        // Example function to update cart quantity via AJAX
+        function updateCartQuantity(item_id, quantity) {
+            fetch(`/update-cart/${item_id}/${quantity}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'), // Ensure you have a function to get CSRF token
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Assuming successful update, update the cart icon and other UI elements if needed
+                updateCartIcon();
+                // Additional UI updates if required
+            })
+            .catch(error => console.error('Error updating cart quantity:', error));
+        }
+
+        // Example function to remove item from cart via AJAX
+        function removeFromCart(item_id) {
+            fetch(`/remove-from-cart/${item_id}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'), // Ensure you have a function to get CSRF token
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Assuming successful removal, update the cart icon and other UI elements if needed
+                updateCartIcon();
+                // Additional UI updates if required
+            })
+            .catch(error => console.error('Error removing item from cart:', error));
+        }
+
+// Function to get CSRF token for POST requests
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
         // JavaScript to close the dropdown if clicked outside
         window.addEventListener('click', function(event) {
             const userDropdown = document.getElementById('dropdown-user');
@@ -221,6 +306,7 @@
             }
         });
     </script>
+    <script src="{% static 'src/tft.js' %}"></script>
 </body>
 
 </html>

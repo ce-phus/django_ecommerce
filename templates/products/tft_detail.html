@@ -1,0 +1,37 @@
+{% extends 'account/_base.html' %}
+{% block content %}
+<div class="pt-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="max-w-md bg-gray-300 border border-gray-700 rounded-lg shadow">
+            <img class="rounded-t-lg w-full " src="{{ tft.image.url }}"/>
+            {% if user.is_staff %}
+            <div class="flex justify-between p-4">
+                <a href="#" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg">Delete Product</a>
+                <a href="#" class="bg-blue-600 hover:bg-blue-800 text-white py-2 px-4 rounded-lg">Edit Product</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="">
+            <p class="font-semibold text-3xl text-secondary mb-3">{{ tft.name }}</p>
+            <hr class="my-8 bg-gray-700 rounded"/>
+            <p class="text-xl w-full sm:w-3/4 text-gray-800 mb-2">{{ tft.description }}</p>
+            <hr class="my-8 bg-gray-700 rounded"/>
+            <p class="text-xl tracking-wide text-grade">Ksh: <span class="text-xl">{{ tft.price }}</span> </p>
+        </div>
+        <div class="mb-5">
+            <h2 class="text-3xl text-secondary font-semibold">Buy</h2>
+            <hr class="my-8 bg-gray-700 rounded"/>
+            {% if tft.stock %}
+                <div>
+                    <a href="#" class="bg-blue-600 hover:bg-blue-800 text-white py-2 px-4 rounded-lg">Add to Cart</a>
+                </div>
+            {% else %}
+            <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
+                <p className="font-bold">Sorry, Out of Stock!!</p>
+                <p>Will Restock!!</p>
+                </div> 
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
