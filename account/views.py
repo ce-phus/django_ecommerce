@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login
@@ -7,6 +7,10 @@ from .forms import UserRegistrationForm, UserUpdateForm, BillingAddressForm, Ord
 from django.utils import timezone
 from .models import BillingAddress, OrderModel
 from django.contrib import messages
+from xhtml2pdf import pisa
+from django.template.loader import get_template
+from io import BytesIO
+from django.http import HttpResponse 
 
 # Create your views here.
 
@@ -124,3 +128,29 @@ def change_order_status(request, pk):
         order.save()
         return redirect('order_list')
     return render(request, 'order/change_order_status.html', {'order': order})
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+
+    if not pdf.err:
+        return result.getvalue()
+    
+    return None
+
+@login_required
+def admin_order_pdf(request, order_id):
+    if request.user.is_superuser:
+        order = get_object_or_404(OrderModel, pk=order_id)
+        pdf = render_to_pdf('order_pdf.html', {'order': order})
+
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            content = "attachment; filename=%s.pdf" % order_id
+            response['Content-Disposition'] = content
+
+            return response
+    
+    return HttpResponse("Not found")

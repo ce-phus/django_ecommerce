@@ -1,7 +1,35 @@
 <!-- templates/index.html -->
 
 {% extends "account/_base.html" %}
+{% block title %}Welcome | {% endblock %}
 
 {% block content %}
-  <h1 class="text-4xl text-green-500"></h1>
+  <h2 class=" text-3xl flex items-center justify-center pt-20">Featured Products</h2>
+
+  {% with products as list_products %}
+    {% include 'parts/products_list.html' %}
+  {% endwith %}
+
+  <hr class="my-5 w-full bg-gray-700 rounded"/>
+  <div class="pt-10">
+    {% for category in featured_categories %}
+    <h2 class="flex items-center justify-center">{{ category.title }}</h2>
+
+    {% with category.products.all|slice:":4" as list_products %}
+    {% include 'parts/product_list.html' %}
+{% endwith %} 
+      {% endfor %}
+
+  </div>
+
+  <h2 class="flex text-3xl items-center justify-center mt-10">Popular Products</h2>
+    {% with popular_products as list_products %}
+      {% include 'parts/products_list.html' %}
+    {% endwith %}
+  
+    <h2 class="text-3xl flex items-center justify-center mt-10">Recently Viewed Products</h2>
+
+    {% with recently_viewed_products as list_products %}
+    {% include 'parts/products_list.html' %}
+{% endwith %} 
 {% endblock content %}

@@ -1,10 +1,6 @@
-from .models import Cart
-from django.db import models
+from .models import Category
 
-def cart_item_count(request):
-    if request.user.is_authenticated:
-        cart, created = Cart.objects.get_or_create(user=request.user)
-        item_count = cart.items.aggregate(total=models.Sum('quantity'))['total'] or 0
-    else:
-        item_count = 0
-    return {'cart_item_count': item_count}
+def menu_categories(request):
+    categories = Category.objects.filter(parent=None)
+
+    return {'menu_categories': categories}

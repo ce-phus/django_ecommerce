@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'account',
     'products',
     'payments',
+    'cart',
     'phonenumber_field',
     'crispy_forms',
     'crispy_tailwind',
@@ -72,7 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'products.context_processors.cart_item_count',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -121,6 +122,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+# Cart
+SESSION_COOKIE_AGE = 86400
+CART_SESSION_ID = 'cart'
 
 
 # Static files (CSS, JavaScript, Images)
