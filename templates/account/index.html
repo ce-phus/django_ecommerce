@@ -16,7 +16,7 @@
     <h2 class="flex items-center justify-center">{{ category.title }}</h2>
 
     {% with category.products.all|slice:":4" as list_products %}
-    {% include 'parts/product_list.html' %}
+    {% include 'parts/products_list.html' %}
 {% endwith %} 
       {% endfor %}
 
